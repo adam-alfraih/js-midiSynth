@@ -9,7 +9,10 @@ async function setUpContext() {
 setUpContext()
 console.log(context)
 
-  
+function midiToFreq(number) {
+    const a = 440;
+    return (a / 32) * (2 ** ((number -9) / 12));
+}
 
 if (navigator.requestMIDIAccess) {
     navigator.requestMIDIAccess().then(success, failure);
@@ -44,12 +47,24 @@ function handleInput(input) {
     }
 }
 
+// Connect browser oscilator to note press
+
+
 function noteOn(note, velocity) {
-    const osc = context.createOscillator();
-    console.log(osc) 
+    const oscillator = context.createOscillator();
+
+    const oscillatorGain = context.createGain();
+    oscillatorGain.gain.value = 0.14
+
+    oscillator.type = 'sine';
+    oscillator.frequency.value = midiToFreq(note);
+    
+    oscillator.connect(oscillatorGain);
+    oscillatorGain.connect(context.destination);
+    oscillator.start();
+    console.log(oscillator)
 }
 function noteOff(note, velocity) {
-    console.log(note)
 }
 function updateDevices(event) {
 console.log(`Device ${event.port.state}. Name: ${event.port.name}, Brand: ${event.port.manufacturer}, Type: ${event.port.type}`)
