@@ -48,27 +48,41 @@ function handleInput(input) {
     }
 }
 
-// Connect browser oscilator to note press
-
-
+// velocity is a number between 0 - 127
 function noteOn(note, velocity) {
     const oscillator = context.createOscillator();
-    oscillators[note.toString()] = oscillator;
-    console.log(oscillators);
-
+    
     const oscillatorGain = context.createGain();
-    oscillatorGain.gain.value = 0.10
-
-    oscillator.type = 'sine';
+    oscillatorGain.gain.value = 0.10;
+    
+    const velocityGainAmount = (1 / 127 * velocity);
+    const velocityGain = context.createGain();
+    velocityGain.gain.value = velocityGainAmount
+    
+    oscillator.type = 'sine'
     oscillator.frequency.value = midiToFreq(note);
     
     oscillator.connect(oscillatorGain);
-    oscillatorGain.connect(context.destination);
+    oscillatorGain.connect(velocityGain)
+    velocityGain.connect(context.destination);
+    
+    oscillator.gain = oscillatorGain;
+    oscillators[note.toString()] = oscillator;
+    
     oscillator.start();
+    console.log(oscillators)
 }
 function noteOff(note, velocity) {
     const oscillator = oscillators[note.toString()];
-    oscillator.stop()
+    const oscillatorGain = oscillator.gain
+
+    oscillatorGain.gain.setValueAtTime(oscillatorGain.gain.value, context.currentTime);
+    oscillatorGain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.03)
+
+    setTimeout (() => {
+        oscillator.stop()
+        oscillator.disconnect()
+    }, 20)
 }
 function updateDevices(event) {
 console.log(`Device ${event.port.state}. Name: ${event.port.name}, Brand: ${event.port.manufacturer}, Type: ${event.port.type}`)
@@ -77,4 +91,5 @@ console.log(`Device ${event.port.state}. Name: ${event.port.name}, Brand: ${even
 function failure() {
     console.log('Could not connect MIDI')
 }
+
 
