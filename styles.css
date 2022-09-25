@@ -18,8 +18,7 @@ body {
     background-image: linear-gradient(
         to right bottom, 
         rgba(122, 244, 253, 0.8),
-        #1b986e), 
-        url(../img/hero.jpg)
+        #1b986e)
         ;
     background-size: cover;
     background-position: top;
