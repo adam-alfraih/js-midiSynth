@@ -1,12 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./app.js" async></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="css/icon-font.css">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="shortcut icon" type="image/png" href="img/sine.png">
     <title>Midi Synth</title>
 </head>
+
 <body>
+    <header class="header">
+        <div class="logo-box">
+            <img src="img/sine.png" alt="Logo" class="logo">
+        </div>
+
+        <div class="text-box">
+            <h1 class="heading-primary">
+                <span class="heading-primary-main">midi synth</span>
+                <span class="heading-primary-sub">plug in your keyboard & play</span>
+            </h1>
+            <div class="buttons">
+                <a href="#" onclick="sine()" class="btn btn-white btn-animated">sine</a>
+                <a href="#" onclick="square()" class="btn btn-white btn-animated">square</a>
+                <a href="#" onclick="sawtooth()" class="btn btn-white btn-animated">sawtooth</a>
+                <a href="#" onclick="triangle()" class="btn btn-white btn-animated">triangle</a>
+            </div>
+        </div>
+    </header>
 </body>
+
 </html>

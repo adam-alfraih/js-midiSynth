@@ -1,6 +1,8 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 const context = new AudioContext();
 const oscillators = {};
+let oscillatorType = 'triangle';
+
 async function setUpContext() {
     // the browser automatically blocks audio output until the user clicks on the page. To bypass this, we check if .state is "suspended" and if so, we call resume(). The state will now be "running".
     if (context.state === "suspended") {
@@ -27,6 +29,19 @@ function success(midiAccess) {
     inputs.forEach((input) => { 
         input.addEventListener('midimessage', handleInput)
     })
+}
+
+function sine() {
+    oscillatorType = 'sine'
+}
+function square() {
+    oscillatorType = 'square'
+}
+function sawtooth() {
+    oscillatorType = 'sawtooth'
+}
+function triangle() {
+    oscillatorType = 'triangle'
 }
 
 function handleInput(input) {
@@ -59,7 +74,7 @@ function noteOn(note, velocity) {
     const velocityGain = context.createGain();
     velocityGain.gain.value = velocityGainAmount
     
-    oscillator.type = 'sine'
+    oscillator.type = oscillatorType
     oscillator.frequency.value = midiToFreq(note);
     
     oscillator.connect(oscillatorGain);
