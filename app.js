@@ -1,5 +1,6 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 const context = new AudioContext();
+const oscillators = {};
 async function setUpContext() {
     // the browser automatically blocks audio output until the user clicks on the page. To bypass this, we check if .state is "suspended" and if so, we call resume(). The state will now be "running".
     if (context.state === "suspended") {
@@ -52,9 +53,11 @@ function handleInput(input) {
 
 function noteOn(note, velocity) {
     const oscillator = context.createOscillator();
+    oscillators[note.toString()] = oscillator;
+    console.log(oscillators);
 
     const oscillatorGain = context.createGain();
-    oscillatorGain.gain.value = 0.14
+    oscillatorGain.gain.value = 0.10
 
     oscillator.type = 'sine';
     oscillator.frequency.value = midiToFreq(note);
@@ -62,9 +65,10 @@ function noteOn(note, velocity) {
     oscillator.connect(oscillatorGain);
     oscillatorGain.connect(context.destination);
     oscillator.start();
-    console.log(oscillator)
 }
 function noteOff(note, velocity) {
+    const oscillator = oscillators[note.toString()];
+    oscillator.stop()
 }
 function updateDevices(event) {
 console.log(`Device ${event.port.state}. Name: ${event.port.name}, Brand: ${event.port.manufacturer}, Type: ${event.port.type}`)
