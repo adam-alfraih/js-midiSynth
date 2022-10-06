@@ -12,4 +12,4 @@ Styling continues to be a **work in progress**.
 
 ## Getting Started
 
-You can use view the [Deployed](js-midi-synth.vercel.app) project.
+You can view the <a href="js-midi-synth.vercel.app">deployed project</a>
