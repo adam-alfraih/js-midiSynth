@@ -10,6 +10,11 @@ Styling continues to be a **work in progress**.
 -   Connect your MIDI-Device to your computer and begin to play!
 -   Check the console for more input information.
 
+## Getting Started
+
+You can view the <a href="https://js-midi-synth.vercel.app/">deployed project</a>.
+
+
 ## Screenshots
 
 
